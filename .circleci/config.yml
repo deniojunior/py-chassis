@@ -33,24 +33,21 @@ jobs:
     <<: *base_config
     steps:
       - attach_workspace:
-        at: .
+          at: .
       - restore_cache:
-        key: v1-{{ .Branch }}-{{ checksum "Pipfile" }}
+          key: v1-{{ .Branch }}-{{ checksum "Pipfile" }}
       - run:
-        name: Unit tests + Coverage report
-        command: |
-          mkdir -p test-reports
-          touch test-reports/unit.xml
-          pipenv run coverage erase
-          pipenv run coverage run --omit="tests/*" --include="app/*" --branch -m unittest discover -s tests/unit -p "*_test.py"
-          pipenv run coverage xml --omit="tests/*" --include="app/*" -i -o test-reports/unit.xml
+          name: Unit tests + Coverage report
+          command: |
+           mkdir -p test-reports
+           touch test-reports/unit.xml
+           pipenv run coverage erase
+           pipenv run coverage run --omit="tests/*" --include="app/*" --branch -m unittest discover -s tests/unit -p "*_test.py"
+           pipenv run coverage xml --omit="tests/*" --include="app/*" -i -o test-reports/unit.xml
       - persist_to_workspace:
-        root: .
-        paths:
-          - test-reports/unit.xml
-      - store_artifacts:
-        path: test-reports
-        destination: test-reports
+          root: .
+          paths:
+            - test-reports/unit.xml
 
 workflows:
   version: 2
