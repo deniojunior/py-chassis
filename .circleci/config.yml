@@ -58,7 +58,7 @@ workflows:
   feature-pipeline:
     jobs:
       - set_workspace:
-          context: sonar
+          # context: sonar
           filters:
             branches:
               ignore:
@@ -71,7 +71,7 @@ workflows:
   dev-pipeline:
     jobs:
       - set_workspace:
-          context: sonar
+          # context: sonar
           filters:
             branches:
               only:
@@ -83,7 +83,7 @@ workflows:
   prod-pipeline:
     jobs:
       - set_workspace:
-          context: sonar
+          # context: sonar
           filters:
             branches:
               only:
