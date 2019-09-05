@@ -1,0 +1,89 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Py-chassis API
+  # put the contact info for your development or API team
+  description: Py-chassis API
+  contact:
+    email: deniofriacamoreirajr@gmail.com
+
+# tags are used for organizing operations
+tags:
+- name: Statuses
+  description: Application status
+
+paths:
+  /status:
+    get:
+      tags:
+      - Statuses
+      summary: Application Statuses
+      operationId: checkApplicationStatus
+      description: Checks the application status
+      produces:
+      - application/json
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            $ref: '#/definitions/StatusesResponse'
+        503:
+          description: Service Unavailable
+  /ready:
+    get:
+      tags:
+      - Statuses
+      summary: Application Readiness
+      operationId: checkApplicationReadiness
+      description: Checks if all application services are ready
+      produces:
+      - application/json
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            $ref: '#/definitions/StatusesResponse'
+        503:
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/ReadinessResponse'
+  /healthz:
+    get:
+      tags:
+      - Statuses
+      summary: Application Health
+      operationId: googleHealthz
+      description: Endpoint needed for Google Ingress. Checks the application health.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            $ref: '#/definitions/StatusesResponse'
+        503:
+          description: Service Unavailable
+definitions:
+  StatusesResponse:
+    type: object
+    properties:
+      status:
+        type: string
+        enum: ['OK', 'ERROR']
+        example: 'OK'
+  ReadinessResponse:
+    type: object
+    properties:
+      status:
+        type: string
+        enum: ['OK', 'ERROR']
+        example: 'ERROR'
+      message:
+        type: string
+        enum: ['DATABASE_ERROR']
+        example: 'DATABASE_ERROR'
+
+host: virtserver.swaggerhub.com
+basePath: /deniojunior/Py-chassis/1.0.0
+schemes:
+ - https
