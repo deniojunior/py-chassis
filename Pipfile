@@ -9,6 +9,11 @@ flask-cors = "*"
 gunicorn = "*"
 
 [dev-packages]
+flask-testing = "*"
+mock = "*"
+pytest = "*"
+coverage = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.7"
