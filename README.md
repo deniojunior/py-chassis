@@ -5,9 +5,7 @@ Provides a chassis to build Python Micro-services
 
 ---
 
-### Getting started
-
-#### Configuration instructions
+### Configuration
 
 A file named **config.yaml** must be created in the root folder containing the following configuration:
 
@@ -15,7 +13,7 @@ A file named **config.yaml** must be created in the root folder containing the f
 name: [PROJECT_NAME]
 ``` 
 
-#### Development
+### Development
 
 Next install dependencies using the following command for [Pipfile](https://github.com/deniojunior/py-chassis/blob/prod/Pipfile):
 ```bash
@@ -34,14 +32,14 @@ It's also start the application with gunicorn:
 gunicorn -w 2 --timeout 3600 -b 0.0.0.0:8080 "app.server:create_app(config='config.yaml')"
 ```
 
-#### Tests
+### Tests
 To run tests, at project path, execute: 
 
 ```bash
 pipenv run coverage run --omit="tests/*" --include="app/*" --branch -m unittest discover -s tests/unit -p "*_test.py"
 ```
 
-#### Docker
+### Docker
 
 Build docker image:
 
