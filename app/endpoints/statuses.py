@@ -7,11 +7,6 @@ _logger = logging.getLogger(__name__)
 blueprint = Blueprint('statuses', __name__)
 
 
-@blueprint.route('/', methods=['GET', 'OPTIONS'])
-def index():
-    return make_response(jsonify({}), 204)
-
-
 @blueprint.route('/status', methods=['GET', 'OPTIONS'])
 def is_alive_request():
     return make_response(jsonify({"status": "OK"}), 200)
