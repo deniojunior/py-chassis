@@ -21,7 +21,7 @@ jobs:
               pipenv run pip --version
             fi
       - save_cache:
-          key: v5-{{ .Branch }}-{{ checksum "Pipfile" }}
+          key: v1-{{ .Branch }}-{{ checksum "Pipfile" }}
           paths:
             - ~/.local
             - ~/.cache
