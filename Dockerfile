@@ -13,4 +13,4 @@ RUN pipenv install
 
 EXPOSE 8080
 
-CMD gunicorn -w 2 --timeout 3600 -b 0.0.0.0:8080 "app.server:create_app(config='config.yaml')"
+CMD pipenv run gunicorn -w 2 --timeout 3600 -b 0.0.0.0:8080 "app.server:create_app(config='config.yaml')"

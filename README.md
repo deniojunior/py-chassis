@@ -26,10 +26,10 @@ To run the application, you must use the following command:
 pipenv run python run.py -c config.yaml
 ```
 
-It's also start the application with gunicorn:
+It's also possible to start the application with gunicorn:
 
 ```bash
-gunicorn -w 2 --timeout 3600 -b 0.0.0.0:8080 "app.server:create_app(config='config.yaml')"
+pipenv run gunicorn -w 2 --timeout 3600 -b 0.0.0.0:8080 "app.server:create_app(config='config.yaml')"
 ```
 
 ### Tests
