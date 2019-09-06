@@ -1,4 +1,6 @@
 # Py-chassis
+[![CircleCI](https://circleci.com/gh/deniojunior/py-chassis/tree/v0.0.1.svg?style=svg)](https://circleci.com/gh/deniojunior/py-chassis/tree/v0.0.1)
+
 Provides a chassis to build Python Micro-services
  
 **API Doc:** https://app.swaggerhub.com/apis/deniojunior/py-chassis
