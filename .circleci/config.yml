@@ -1,0 +1,90 @@
+base_config: &base_config
+  docker:
+  - image: circleci/python:3.7
+  working_directory: ~/app
+
+version: 2
+jobs:
+  set_workspace:
+    <<: *base_config
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-{{ .Branch }}-{{ checksum "Pipfile" }}
+      - run:
+          name: install dependencies
+          command: |
+            if [ ! $(pipenv --venv) ] ; then
+              pipenv run pip install pip==10.0.1
+              pipenv lock
+              pipenv sync --dev --python 3.7
+              pipenv run pip --version
+            fi
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ checksum "Pipfile" }}
+          paths:
+            - ~/.local
+            - ~/.cache
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  unit_testing:
+    <<: *base_config
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: v1-{{ .Branch }}-{{ checksum "Pipfile" }}
+      - run:
+          name: Unit tests + Coverage report
+          command: |
+           mkdir -p test-reports
+           touch test-reports/unit.xml
+           pipenv run coverage erase
+           pipenv run coverage run --omit="tests/*" --include="app/*" --branch -m unittest discover -s tests/unit -p "*_test.py"
+           pipenv run coverage xml --omit="tests/*" --include="app/*" -i -o test-reports/unit.xml
+      - persist_to_workspace:
+          root: .
+          paths:
+            - test-reports/unit.xml
+
+workflows:
+  version: 2
+
+  feature-pipeline:
+    jobs:
+      - set_workspace:
+          # context: sonar
+          filters:
+            branches:
+              ignore:
+                - dev
+                - prod
+      - unit_testing:
+          requires:
+            - set_workspace
+
+  dev-pipeline:
+    jobs:
+      - set_workspace:
+          # context: sonar
+          filters:
+            branches:
+              only:
+                - dev
+      - unit_testing:
+          requires:
+            - set_workspace
+
+  prod-pipeline:
+    jobs:
+      - set_workspace:
+          # context: sonar
+          filters:
+            branches:
+              only:
+                - prod
+      - unit_testing:
+          requires:
+            - set_workspace
